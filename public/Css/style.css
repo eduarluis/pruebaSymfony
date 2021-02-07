@@ -1,0 +1,17 @@
+.grid-divider
+{
+    border-left: 1px solid red;
+    height: 39px;
+}
+
+@media (max-width: 767px){
+    .grid-divider
+    {
+        display: none;
+    }    
+}
+
+.squred
+{
+    border-radius: 0px!important;
+}

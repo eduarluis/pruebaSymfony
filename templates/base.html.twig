@@ -3,11 +3,22 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-
-        {% block javascripts %}{% endblock %}
+        {% block stylesheets %}
+            <link rel='stylesheet' href='{{ asset('Css/bootstrap/bootstrap.min.css') }}'>
+            <link rel='stylesheet' href='{{ asset('Css/style.css') }}'>
+        {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+        {% include 'header.html.twig' %}
+
+        <main class="py-4">
+            {% block body %}{% endblock %}
+        </main>
+
+        {% block javascripts %}
+            <script src='{{ asset('Js/jquery.min.js') }}'></script>
+            <script src='{{ asset('Js/popper.min.js') }}'></script>
+            <script src='{{ asset('Js/bootstrap.min.js') }}'></script>
+        {% endblock %}
     </body>
 </html>
