@@ -22,25 +22,27 @@
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th>#</th>
                                     <th>Categoria</th>
+                                    <th>Code</th>
                                     <th>Producto</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Categoria</td>
-                                    <td>Producto</td>
-                                    <td>
-                                        <div class="btn-group" role="group" aria-label="Third group">
-                                            <a href='' class="btn btn-sm squred btn-info mr-1"> Ver </a>
-                                            <a href='' class="btn btn-sm squred btn-warning mr-1"> Editar </a>
-                                            <a href='' class="btn btn-sm squred btn-danger mr-1"> Eliminar </a>
-                                        </div>
-                                    </td>
-                                </tr>
+                                {% for product in products %}
+                                    <tr>
+                                        <td>{{ product.category.name }}</td>
+                                        <td>{{ product.code }}</td>
+                                        <td>{{ product.name }}</td>
+                                        <td>
+                                            <div class="btn-group" role="group" aria-label="Third group">
+                                                <a href="{{ path('pShow',{'id' : product.id}) }}" class="btn btn-sm squred btn-info mr-1"> Ver </a>
+                                                <a href="{{ path('pEdit',{'id' : product.id}) }}" class="btn btn-sm squred btn-warning mr-1"> Editar </a>
+                                                <a href='javascript:void(0)' data-playgroup-id="{{ product.id }}" class=" delete btn btn-sm squred btn-danger mr-1"> Eliminar </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
                             </tbody>
                         </table>   
                     </div>
@@ -50,4 +52,36 @@
     </div>            
 {% endblock %}
 
-{% block javascripts %} {{ parent() }} {% endblock %}
+{% block javascripts %} 
+    {{ parent() }}
+    <script>
+        $(document).ready(function() {
+
+            $(".delete").click(function(){
+                var pid = $(this).attr("data-playgroup-id");
+
+                var confm = confirm('estas seguro que deseas eliminar este registo?');
+                if(confm == true)
+                {
+                    url = '{{path('pDestroy', { 'id': 0}) }}';
+                    url = url.replace("0",pid);
+
+                    $.ajax({ 
+                        url: url,
+                        type: 'delete', 
+                        success: function(result) {
+                            window.location.href = '{{path('products') }}';
+                        },
+                        error: function(e){
+                            console.log(e.responseText);
+                        }
+                    });
+                }else{
+                    return false;
+                }
+
+                return false;
+            });
+        });
+    </script>
+{% endblock %}

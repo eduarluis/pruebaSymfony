@@ -17,7 +17,14 @@
                     </div>
 
                     <div class="card-body">
-                        
+                        <ul>
+                            <li>Name: {{ product.name }}</li>
+                            <li>Code: {{ product.code }}</li>
+                            <li>Description: {{ product.description }}</li>
+                            <li>Drand: {{ product.brand }}</li>
+                            <li>Price: {{ product.price }}</li>
+                            <li>Category: {{ product.category.name }}</li>
+                        </ul>
                     </div>
                 </div>
             </div>
