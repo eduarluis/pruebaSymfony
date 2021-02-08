@@ -4,9 +4,16 @@ namespace App\Entity;
 
 use App\Repository\ProductsRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
+use App\Entity\Categories;
 
 /**
  * @ORM\Entity(repositoryClass=ProductsRepository::class)
+ * @ORM\Entity
+ * @UniqueEntity("code")
+ * @UniqueEntity("name")
  */
 class Products
 {
@@ -18,12 +25,16 @@ class Products
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", unique=true)
+     * @Assert\NotBlank
+     * @Assert\Length(min=4,max=10)
      */
     private $code;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string",unique=true)
+     * @Assert\NotBlank
+     * @Assert\Length(min=4)
      */
     private $name;
 
@@ -36,11 +47,6 @@ class Products
      * @ORM\Column(type="string", length=255)
      */
     private $brand;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $category;
 
     /**
      * @ORM\Column(type="float")
@@ -56,6 +62,12 @@ class Products
      * @ORM\Column(type="datetime")
      */
     private $updatedAt;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Categories::class, inversedBy="products")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $category;
 
     public function getId(): ?int
     {
@@ -110,18 +122,6 @@ class Products
         return $this;
     }
 
-    public function getCategory(): ?int
-    {
-        return $this->category;
-    }
-
-    public function setCategory(int $category): self
-    {
-        $this->category = $category;
-
-        return $this;
-    }
-
     public function getPrice(): ?float
     {
         return $this->price;
@@ -157,4 +157,17 @@ class Products
 
         return $this;
     }
+
+    public function getCategory(): ?Categories
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Categories $category): self
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
 }
