@@ -14,7 +14,7 @@
                         Listado de Categoria
 
                         <div class="float-end">
-                            <a href="{{ path('pCreate') }}" class="btn btn-sm squred btn-primary">Crear</a>
+                            <a href="{{ path('cCreate') }}" class="btn btn-sm squred btn-primary">Crear</a>
                         </div>
                     </div>
 
@@ -22,25 +22,25 @@
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th>#</th>
                                     <th>Categoria</th>
-                                    <th>Producto</th>
+                                    {# <th>Activo</th> #}
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Categoria</td>
-                                    <td>Producto</td>
-                                    <td>
-                                        <div class="btn-group" role="group" aria-label="Third group">
-                                            <a href='' class="btn btn-sm squred btn-info mr-1"> Ver </a>
-                                            <a href='' class="btn btn-sm squred btn-warning mr-1"> Editar </a>
-                                            <a href='' class="btn btn-sm squred btn-danger mr-1"> Eliminar </a>
-                                        </div>
-                                    </td>
-                                </tr>
+                                {% for category in categories %}
+                                    <tr>
+                                        <td>{{ category.name }}</td>
+                                        {# <td>{{ category.active }}</td> #}
+                                        <td>
+                                            <div class="btn-group" role="group" aria-label="Third group">
+                                                <a href="{{ path('cShow',{'id' : category.id}) }}" class="btn btn-sm squred btn-info mr-1"> Ver </a>
+                                                <a href="{{ path('cEdit',{'id' : category.id}) }}" class="btn btn-sm squred btn-warning mr-1"> Editar </a>
+                                                <a href="javascript:void(0)" onclick="return confirm('are you sure you want to delete this record?')" class="btn btn-sm squred btn-danger mr-1"> Eliminar </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
                             </tbody>
                         </table>   
                     </div>
